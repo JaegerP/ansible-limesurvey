@@ -1,0 +1,37 @@
+---
+
+- name: Create database
+  mysql_db:
+    name: lime
+    state: present
+- name: Create database user
+  mysql_user:
+    name: lime
+    password: '{{ limesurvey_db_password }}'
+    priv: 'lime.*:ALL'
+    state: present
+  no_log: true
+- name: Download latest limesurvey
+  get_url:
+    url: "https://download.limesurvey.org/latest-stable-release/limesurvey{{ limesurvey_version }}.tar.gz"
+    dest: '{{ limesurvey_archive_path }}'
+    validate_certs: no
+- name: Unpack limesurvey archive
+  unarchive:
+    remote_src: yes
+    src: '{{ limesurvey_archive_path }}'
+    dest: '{{ server_root }}'
+    mode: 0755
+    owner: root
+- name: Ensure correct permissions
+  file:
+    path: "{{ item }}"
+    owner: www-data
+    mode: 0755
+    recurse: yes
+  with_items:
+  - '{{ limesurvey_webroot }}/tmp'
+  - '{{ limesurvey_webroot }}/upload'
+  - '{{ limesurvey_webroot }}/application/config'
+
+

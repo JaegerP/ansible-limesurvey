@@ -1,0 +1,13 @@
+---
+server_root: /var/www
+
+limesurvey_version: '4.1.16+200407'
+limesurvey_checksum: '7d1cf0c87ec1d737cb447c7bb7ee7a4cd6693ddeb9ee8a106c0aa184914c55f2'
+limesurvey_checksum_algotithm: 'sha256'
+limesurvey_archive_path: /var/local/limesurvey.tar.gz
+limesurvey_webroot: "{{ server_root }}/limesurvey"
+
+mysql_package_list: mariadb-server, mariadb-client, python-pymysql
+mysql_service_name: mysql
+
+

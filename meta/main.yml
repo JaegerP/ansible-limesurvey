@@ -1,0 +1,23 @@
+---
+
+dependencies: 
+- role: nginx_site
+  nginx_site_hostname: '{{ limesurvey_server_name }}'
+  nginx_site_name: '{{ limesurvey_server_name }}'
+  nginx_site_use_ssl: false
+  nginx_site_default: false
+  nginx_site_index_extensions: php, html, htm
+  nginx_site_root: '{{ limesurvey_webroot }}'
+  nginx_site_location_rules:
+    "/": "try_files $uri /index.php?$args;"
+    "@rewrite": "rewrite ^/(.*)$ /index.php;"
+    "~\\.php$": |
+      include snippets/fastcgi-php.conf;
+      fastcgi_pass unix:/run/php/php{{ php_version }}-fpm.sock;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      include fastcgi_params;
+    
+- role: mysql_server
+
+- role: nginx_php-fpm
+  php_pakages: php{{ php_version }}-mysql, php{{ php_version }}-ldap, php{{ php_version }}-mbstring, php{{ php_version }}-zip, php{{ php_version }}-imap, php{{ php_version }}-gd
