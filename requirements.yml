@@ -1,10 +1,10 @@
 ---
 	
 - src: https://github.com/JaegerP/ansible-nginx_php-fpm.git
-  name: nginx_php-fpm
+  name: php-fpm
 	
 - src: https://github.com/JaegerP/ansible-mysql_server
-  name: mysql_server
+  name: mysql-server
 	
 - src: https://github.com/JaegerP/ansible-nginx_site.git
-  name: nginx_site
+  name: nginx-site
